@@ -4,8 +4,20 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 export default function ContactCard() {
-  const handleSaveContact = () => {
-    // Función para guardar contacto (puede implementarse con vCard o similar)
+  // Función helper para detectar dispositivos móviles
+  const detectMobileDevice = () => {
+    if (typeof window === 'undefined') return { isIOS: false, isAndroid: false, isMobile: false };
+    
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isAndroid = /android/.test(userAgent);
+    const isMobile = isIOS || isAndroid;
+    
+    return { isIOS, isAndroid, isMobile };
+  };
+
+  // Función para descargar el archivo vCard (fallback)
+  const downloadVCard = () => {
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:Fabiana Pérez
@@ -24,6 +36,118 @@ END:VCARD`;
     link.download = 'fabiana-perez.vcf';
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  // Función para intentar usar Web Share API
+  const shareViaWebShare = async (vcard: string): Promise<boolean> => {
+    if (typeof navigator === 'undefined' || !navigator.share) {
+      return false;
+    }
+
+    try {
+      const blob = new Blob([vcard], { type: 'text/vcard' });
+      const file = new File([blob], 'fabiana-perez.vcf', { type: 'text/vcard' });
+      
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: 'Guardar contacto de Fabiana Pérez',
+          text: 'Contacto de Primar Servicios Inmobiliarios'
+        });
+        return true;
+      }
+    } catch (error) {
+      // Si el usuario cancela o hay un error, continuar con el siguiente método
+      console.log('Web Share API no disponible o cancelado:', error);
+    }
+    
+    return false;
+  };
+
+  // Función para intentar abrir contactos usando esquemas de URL
+  const openContactsViaURL = (vcard: string): boolean => {
+    const { isIOS, isAndroid } = detectMobileDevice();
+    
+    if (isIOS) {
+      // En iOS, intentamos usar el esquema contacts://
+      // Nota: Esto tiene limitaciones en Safari, pero puede funcionar en otras apps
+      try {
+        // Creamos un enlace temporal con el vCard como data URI
+        const blob = new Blob([vcard], { type: 'text/vcard' });
+        const url = URL.createObjectURL(blob);
+        
+        // Intentamos abrir la app de contactos (limitado en Safari)
+        // Como alternativa, usamos un intent para compartir
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fabiana-perez.vcf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        return true;
+      } catch (error) {
+        console.log('Error al abrir contactos en iOS:', error);
+        return false;
+      }
+    }
+    
+    if (isAndroid) {
+      // En Android, intentamos usar un intent para abrir contactos
+      try {
+        const blob = new Blob([vcard], { type: 'text/vcard' });
+        const url = URL.createObjectURL(blob);
+        
+        // Intentamos usar un intent de Android para compartir/guardar contacto
+        // Android manejará automáticamente el archivo .vcf y sugerirá guardarlo en contactos
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'fabiana-perez.vcf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        return true;
+      } catch (error) {
+        console.log('Error al abrir contactos en Android:', error);
+        return false;
+      }
+    }
+    
+    return false;
+  };
+
+  const handleSaveContact = async () => {
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Fabiana Pérez
+ORG:Primar Servicios Inmobiliarios
+TITLE:Martillera Pública
+TEL;TYPE=CELL:+54 9 11 69092147
+TEL;TYPE=WORK:+54 9 11 34775000
+EMAIL:administracion@primarprop.com.ar
+ADR;TYPE=WORK:;;Av. Cabildo 2586 3C;CABA;;;
+END:VCARD`;
+
+    const { isMobile } = detectMobileDevice();
+
+    // Si es un dispositivo móvil, intentamos métodos nativos primero
+    if (isMobile) {
+      // 1. Intentar Web Share API (mejor experiencia de usuario)
+      const shared = await shareViaWebShare(vcard);
+      if (shared) {
+        return; // Éxito, salir de la función
+      }
+
+      // 2. Intentar esquemas de URL específicos de la plataforma
+      const opened = openContactsViaURL(vcard);
+      if (opened) {
+        return; // Éxito, salir de la función
+      }
+    }
+
+    // 3. Fallback: Descargar el archivo .vcf (comportamiento original)
+    downloadVCard();
   };
 
   return (
