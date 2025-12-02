@@ -2,9 +2,10 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import ImageCarousel from '@/components/ImageCarousel'
 import AboutUs from '@/components/AboutUs'
-import ProductCarousel from '@/components/ProductCarousel'
+import Blog from '@/components/Blog'
+// import ProductCarousel from '@/components/ProductCarousel' // Se usará a futuro
 import Services from '@/components/Services'
-import Testimonials from '@/components/Testimonials'
+// import Testimonials from '@/components/Testimonials' // Se usará a futuro
 import Footer from '@/components/Footer'
 
 export default function Home() {
@@ -14,9 +15,10 @@ export default function Home() {
       <Hero />
       <ImageCarousel />
       <AboutUs />
-      <ProductCarousel />
+      <Blog />
+      {/* <ProductCarousel /> Se usará a futuro */}
       <Services />
-      <Testimonials />
+      {/* <Testimonials /> Se usará a futuro */}
       <Footer />
     </main>
   )
