@@ -31,10 +31,10 @@ END:VCARD`;
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="bg-white h-[800px] relative rounded-[24px] shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] w-full max-w-[448px] overflow-hidden mx-auto"
+      className="bg-white h-screen md:h-[800px] relative rounded-none md:rounded-[24px] shadow-none md:shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] w-screen md:w-full max-w-none md:max-w-[448px] overflow-hidden md:mx-auto flex flex-col"
     >
       {/* Header con imagen PrimarCard */}
-      <div className="bg-black h-[272px] flex items-center justify-center overflow-hidden">
+      <div className="bg-black h-[272px] md:h-[272px] flex items-center justify-center overflow-hidden shrink-0">
         <div className="h-full w-full relative px-8 py-12">
           <Image
             src="/images/PrimarCard.png"
@@ -47,7 +47,7 @@ END:VCARD`;
       </div>
 
       {/* Contenido de contacto */}
-      <div className="h-[528px] relative px-8 pt-10">
+      <div className="flex-1 md:h-[528px] relative px-8 pt-10 flex flex-col">
         {/* Nombre */}
         <h1 className="font-bold text-[30px] leading-[36px] text-neutral-950 mb-2 font-poppins">
           Fabiana Pérez
