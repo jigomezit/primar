@@ -17,6 +17,8 @@
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 0, 0, 0;
   --background-end-rgb: 0, 0, 0;
+  --tnkigl2: 700;
+  --tnkiglp: 1.5rem;
 }
 
 body {
