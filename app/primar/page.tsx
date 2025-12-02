@@ -4,8 +4,7 @@ import Hero from '@/components/Hero'
 import AboutUs from '@/components/AboutUs'
 import Services from '@/components/Services'
 import Blog from '@/components/Blog'
-import Testimonials from '@/components/Testimonials'
-import ContactCard from '@/components/ContactCard'
+// import Testimonials from '@/components/Testimonials' // Se usará a futuro
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
@@ -23,8 +22,7 @@ export default function PrimarPage() {
       <AboutUs />
       <Services />
       <Blog />
-      <Testimonials />
-      <ContactCard />
+      {/* <Testimonials /> Se usará a futuro */}
       <Footer />
     </main>
   )

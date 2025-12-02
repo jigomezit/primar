@@ -28,10 +28,10 @@ export default function Footer() {
           >
             <h4 className="text-xl font-bold font-poppins mb-4">Contacto</h4>
             <ul className="space-y-2 font-poppins text-gray-400">
-              <li>Tel: +54 11 1234-5678</li>
-              <li>Email: info@primar.com.ar</li>
-              <li>Dirección: Av. Principal 1234</li>
-              <li>Ciudad, País</li>
+              <li>Tel: +54 11 34775000</li>
+              <li>Email: administracion@primarprop.com.ar</li>
+              <li>Dirección: Av. Cabildo 2586 3C, CABA</li>
+              <li>Buenos Aires, Argentina</li>
             </ul>
           </motion.div>
 
