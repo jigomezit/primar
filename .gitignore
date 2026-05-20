@@ -37,3 +37,6 @@ next-env.d.ts
 # documentation
 README.md
 
+# generated mobile/desktop screenshots from playwright smoke
+/scripts/mobile-smoke-screenshots/
+

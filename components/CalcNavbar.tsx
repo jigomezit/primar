@@ -3,9 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { scrollToSection } from '@/utils/scrollToSection'
 
-export default function Navbar() {
+type Props = {
+  variant?: 'dark' | 'light' | 'transparent'
+}
+
+export default function CalcNavbar({ variant = 'transparent' }: Props) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -27,76 +30,71 @@ export default function Navbar() {
   }, [isOpen])
 
   const menuItems = [
-    { label: 'Home', id: 'home' },
-    { label: 'Nosotros', id: 'nosotros' },
-    { label: 'Blog', id: 'blog' },
-    { label: 'Servicios', id: 'servicios' },
+    { label: 'Home', href: '/#home' },
+    { label: 'Nosotros', href: '/#nosotros' },
+    { label: 'Blog', href: '/#blog' },
+    { label: 'Servicios', href: '/#servicios' },
   ]
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
-    e.preventDefault()
-    setIsOpen(false)
-    scrollToSection(sectionId)
-  }
-
-  const onLight = isScrolled || isOpen
+  const onLight = variant === 'light' || isScrolled || isOpen
+  const bgClass = isOpen
+    ? 'bg-white shadow-md'
+    : variant === 'transparent'
+    ? isScrolled
+      ? 'bg-white shadow-md'
+      : 'bg-transparent'
+    : variant === 'light'
+    ? 'bg-white shadow-sm'
+    : 'bg-black'
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        onLight ? 'bg-white shadow-md' : 'bg-black'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bgClass}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          <motion.a
-            href="#home"
-            onClick={(e) => handleNavClick(e, 'home')}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center cursor-pointer"
-          >
-            <img
+          <Link href="/" className="flex items-center cursor-pointer">
+            <motion.img
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
               src="/images/logo.png"
               alt="PRIMAR Logo"
               className={`h-[62px] md:h-[74px] w-auto transition-all duration-300 ${
                 onLight ? 'brightness-0' : ''
               }`}
             />
-          </motion.a>
+          </Link>
 
           <div className="hidden md:flex items-center space-x-8">
             {menuItems.map((item, index) => (
-              <motion.a
-                key={item.id}
-                href={`#${item.id}`}
-                onClick={(e) => handleNavClick(e, item.id)}
+              <motion.div
+                key={item.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -2 }}
-                className={`relative font-inter font-medium cursor-pointer group ${
-                  onLight ? 'text-black' : 'text-white'
-                }`}
+                transition={{ delay: index * 0.08 }}
               >
-                {item.label}
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className={`absolute left-0 right-0 -bottom-1 h-[1.5px] origin-left ${
-                    onLight ? 'bg-black' : 'bg-white'
-                  } group-hover:scale-x-100 scale-x-0 transition-transform duration-300`}
-                />
-              </motion.a>
+                <Link
+                  href={item.href}
+                  className={`relative font-inter font-medium cursor-pointer group ${
+                    onLight ? 'text-black' : 'text-white'
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute left-0 right-0 -bottom-1 h-[1.5px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
+                      onLight ? 'bg-black' : 'bg-white'
+                    }`}
+                  />
+                </Link>
+              </motion.div>
             ))}
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: menuItems.length * 0.1 }}
+              transition={{ delay: menuItems.length * 0.08 }}
             >
               <Link
                 href="/calculadora"
@@ -153,17 +151,20 @@ export default function Navbar() {
           >
             <div className="px-4 py-6 flex flex-col gap-1">
               {menuItems.map((item, i) => (
-                <motion.a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => handleNavClick(e, item.id)}
+                <motion.div
+                  key={item.href}
                   initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05 }}
-                  className="font-inter font-medium text-[18px] text-black py-3 px-3 rounded-lg hover:bg-black/5"
                 >
-                  {item.label}
-                </motion.a>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block font-inter font-medium text-[18px] text-black py-3 px-3 rounded-lg hover:bg-black/5"
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
               <motion.div
                 initial={{ opacity: 0, x: -16 }}

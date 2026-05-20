@@ -1,132 +1,87 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Guía Completa para Comprar tu Primera Casa',
-    excerpt: 'Descubre los pasos esenciales y consejos prácticos para adquirir tu primera propiedad inmobiliaria con confianza.',
-    date: '15 Marzo 2024',
-    category: 'Compra',
-    accent: 'from-gray-700 to-gray-900',
-  },
-  {
-    id: 2,
-    title: 'Tendencias del Mercado Inmobiliario 2024',
-    excerpt: 'Análisis de las tendencias actuales y proyecciones del mercado inmobiliario para este año.',
-    date: '10 Marzo 2024',
-    category: 'Mercado',
-    accent: 'from-gray-800 to-black',
-  },
-  {
-    id: 3,
-    title: 'Cómo Aumentar el Valor de tu Propiedad',
-    excerpt: 'Consejos prácticos y mejoras que puedes realizar para incrementar significativamente el valor de tu hogar.',
-    date: '5 Marzo 2024',
-    category: 'Inversión',
-    accent: 'from-yellow-600 to-gray-900',
-  },
-]
+import { posts } from '@/lib/blogContent'
 
 export default function Blog() {
   return (
-    <section id="blog" className="py-20 bg-gradient-to-b from-black to-white">
+    <section id="blog" className="py-20 bg-cream">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="mb-12 flex items-end justify-between flex-wrap gap-6"
         >
-          <h2 className="text-4xl md:text-5xl font-bold font-inter text-white mb-4 tracking-tight">
-            Blog
-          </h2>
-          <p className="text-lg font-inter text-gray-300 max-w-2xl mx-auto">
-            Mantente informado con nuestros artículos sobre el mercado inmobiliario, consejos y tendencias
-          </p>
+          <div>
+            <div className="font-mono text-[10.5px] text-gold tracking-[0.3em] uppercase mb-2">
+              Notas y análisis
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold font-inter text-ink tracking-tight">
+              Blog
+            </h2>
+            <p className="text-base font-inter text-ink/65 max-w-xl mt-3">
+              Mercado, tendencias y guías prácticas para acompañar cada decisión inmobiliaria.
+            </p>
+          </div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post, index) => (
             <motion.article
-              key={post.id}
-              initial={{ opacity: 0, y: 30 }}
+              key={post.slug}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ y: -10 }}
-              className="bg-gray-900 rounded-lg overflow-hidden shadow-md hover:shadow-2xl hover:shadow-yellow-400/20 transition-shadow cursor-pointer group"
+              whileHover={{ y: -6 }}
+              className="bg-white rounded-2xl overflow-hidden border border-ink/8 shadow-[0_1px_0_rgba(0,0,0,0.04),0_18px_40px_-25px_rgba(15,15,15,0.18)] hover:shadow-[0_1px_0_rgba(0,0,0,0.04),0_30px_60px_-25px_rgba(15,15,15,0.28)] transition-shadow duration-500 group"
             >
-              <div className={`relative h-48 bg-gradient-to-br ${post.accent} overflow-hidden`}>
-                <motion.div
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.15 }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className="absolute inset-0 flex items-end p-6"
+              <Link href={`/blog/${post.slug}`} className="block">
+                <div
+                  className="relative aspect-[16/10] bg-cover bg-center overflow-hidden"
+                  style={{ backgroundImage: `url(${post.thumbImage})` }}
                 >
-                  <h4 className="font-inter font-bold text-white/85 text-3xl tracking-tight leading-none">
-                    {post.category.toLowerCase()}.
-                  </h4>
-                </motion.div>
-                <motion.div
-                  initial={{ x: 20, opacity: 0 }}
-                  whileHover={{ x: 0, opacity: 1 }}
-                  className="absolute top-4 right-4"
-                >
-                  <span className="bg-white/20 backdrop-blur-sm text-white text-xs font-inter font-semibold px-3 py-1 rounded-full">
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/10 to-transparent" />
+                  <span className="absolute top-3 left-3 inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-cream/85 text-ink text-[10px] font-mono tracking-[0.25em] uppercase backdrop-blur-sm">
+                    <span className="w-1 h-1 rounded-full bg-gold" />
                     {post.category}
                   </span>
-                </motion.div>
-              </div>
-
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-inter text-gray-400">
-                    {post.date}
+                  <span className="absolute bottom-3 right-3 font-mono text-[10px] text-cream/80 tracking-[0.25em] uppercase">
+                    {post.fecha}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold font-inter text-white mb-3 tracking-tight group-hover:text-yellow-400 transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-gray-300 font-inter text-sm leading-relaxed mb-4">
-                  {post.excerpt}
-                </p>
-                <motion.button
-                  whileHover={{ x: 4 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                  className="text-yellow-400 font-inter font-semibold text-sm hover:text-yellow-300 transition-colors flex items-center gap-2"
-                >
-                  Leer más
-                  <motion.span
-                    initial={{ x: 0 }}
-                    whileHover={{ x: 6 }}
-                    className="inline-block"
-                  >
-                    →
-                  </motion.span>
-                </motion.button>
-              </div>
+
+                <div className="p-5">
+                  <h3 className="font-inter font-bold text-ink text-[18px] leading-[1.25] tracking-tight group-hover:text-gold transition-colors">
+                    {post.titleLine1} {post.titleAccent}
+                    {post.titleEnd}
+                  </h3>
+                  <p className="font-inter text-[13.5px] text-ink/65 leading-[1.6] mt-2.5 line-clamp-3">
+                    {post.bajada}
+                  </p>
+
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="font-mono text-[10.5px] text-ink/45 tracking-wider uppercase">
+                      {post.tiempoLectura} · {post.autor}
+                    </span>
+                    <span className="font-inter font-medium text-[12.5px] text-ink flex items-center gap-1.5">
+                      Leer
+                      <motion.span
+                        className="inline-block"
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 4 }}
+                      >
+                        →
+                      </motion.span>
+                    </span>
+                  </div>
+                </div>
+              </Link>
             </motion.article>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-            className="bg-yellow-400 hover:bg-yellow-300 text-black font-inter font-semibold px-8 py-3 rounded-lg transition-colors shadow-lg hover:shadow-yellow-400/40"
-          >
-            Ver Todos los Artículos
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   )
