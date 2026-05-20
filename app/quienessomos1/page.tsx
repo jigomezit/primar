@@ -1,22 +1,19 @@
 import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
-import AboutUs5 from '@/components/about/AboutUs5'
+import AboutUs1 from '@/components/about/AboutUs1'
 import Services5 from '@/components/services/Services5'
 import Blog from '@/components/Blog'
-// import Testimonials from '@/components/Testimonials' // Se usará a futuro
 import Footer from '@/components/Footer'
 
-export default function HomePage() {
+export default function QuienesSomos1Page() {
   return (
     <main>
       <Navbar />
       <Hero />
-      <AboutUs5 />
+      <AboutUs1 />
       <Services5 />
       <Blog />
-      {/* <Testimonials /> Se usará a futuro */}
       <Footer />
     </main>
   )
 }
-
