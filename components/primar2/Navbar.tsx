@@ -17,9 +17,10 @@ export default function Navbar() {
 
   const menuItems = [
     { label: 'Home', id: 'home' },
+    // { label: 'Proyectos', id: 'proyectos' }, // Se usará a futuro
     { label: 'Nosotros', id: 'nosotros' },
     { label: 'Blog', id: 'blog' },
-    { label: 'Servicios', id: 'servicios' },
+    { label: 'Servicios', id: 'servicios' }
   ]
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
@@ -38,22 +39,23 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
+          {/* Logo */}
           <motion.a
             href="#home"
             onClick={(e) => handleNavClick(e, 'home')}
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
             className="flex items-center cursor-pointer"
           >
-            <img
-              src="/images/logo.png"
-              alt="PRIMAR Logo"
+            <img 
+              src="/images/logo.png" 
+              alt="PRIMAR Logo" 
               className={`h-[62px] md:h-[74px] w-auto transition-all duration-300 ${
                 isScrolled ? 'brightness-0' : ''
               }`}
             />
           </motion.a>
 
+          {/* Menu Items */}
           <div className="hidden md:flex space-x-8">
             {menuItems.map((item, index) => (
               <motion.a
@@ -63,36 +65,29 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -2 }}
-                className={`relative font-inter font-medium cursor-pointer group ${
-                  isScrolled ? 'text-black' : 'text-white'
+                whileHover={{ scale: 1.1 }}
+                className={`font-poppins font-medium transition-colors cursor-pointer ${
+                  isScrolled 
+                    ? 'text-black hover:text-gray-600' 
+                    : 'text-white hover:text-gray-300'
                 }`}
               >
                 {item.label}
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className={`absolute left-0 right-0 -bottom-1 h-[1.5px] origin-left ${
-                    isScrolled ? 'bg-black' : 'bg-white'
-                  } group-hover:scale-x-100 scale-x-0 transition-transform duration-300`}
-                />
               </motion.a>
             ))}
           </div>
 
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              className={isScrolled ? 'text-black' : 'text-white'}
-            >
+            <button className={isScrolled ? 'text-black' : 'text-white'}>
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>
     </motion.nav>
   )
 }
+

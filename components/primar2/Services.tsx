@@ -6,44 +6,51 @@ const services = [
   {
     title: 'Compra y Venta',
     description: 'Asesoramiento completo para la compra o venta de tu propiedad con transparencia y profesionalismo.',
+    icon: '🏠',
   },
   {
     title: 'Alquileres',
     description: 'Encontramos el alquiler perfecto para ti o gestionamos tu propiedad para obtener los mejores resultados.',
+    icon: '🔑',
   },
   {
     title: 'Tasaciones',
     description: 'Valuaciones precisas y profesionales para conocer el valor real de tu propiedad en el mercado.',
+    icon: '📊',
   },
   {
     title: 'Asesoramiento Legal',
     description: 'Acompañamiento legal en todas las etapas de tu transacción inmobiliaria con expertos en derecho.',
+    icon: '⚖️',
   },
   {
     title: 'Inversiones',
     description: 'Orientación especializada para inversiones inmobiliarias con análisis de rentabilidad y oportunidades.',
+    icon: '💼',
   },
   {
     title: 'Administración',
     description: 'Gestión integral de propiedades con servicios de administración y mantenimiento profesional.',
+    icon: '📋',
   },
 ]
 
 export default function Services() {
   return (
-    <section
-      id="servicios"
+    <section 
+      id="servicios" 
       className="py-20 relative bg-black bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: 'url(/images/services.jpg)' }}
     >
+      {/* Overlay oscuro para mejorar la legibilidad */}
       <div className="absolute inset-0 bg-black/60"></div>
-
+      
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-bold font-inter text-white text-center mb-12 tracking-tight"
+          className="text-4xl md:text-5xl font-bold font-poppins text-white text-center mb-12"
         >
           Nuestros Servicios
         </motion.h2>
@@ -55,31 +62,15 @@ export default function Services() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{
-                y: -8,
-                scale: 1.03,
-                transition: { duration: 0.3, ease: 'easeOut' },
-              }}
-              className="group bg-gray-900 p-8 rounded-lg shadow-md hover:shadow-2xl hover:shadow-white/10 transition-shadow border border-transparent hover:border-white/15 relative overflow-hidden"
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ scale: 1.05 }}
+              className="bg-gray-900 p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow"
             >
-              <motion.div
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="absolute top-0 left-0 right-0 h-[2px] bg-white origin-left"
-              />
-              <motion.div
-                whileHover={{ x: 4 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                className="text-sm font-mono font-medium text-white/40 mb-3 tracking-widest"
-              >
-                {String(index + 1).padStart(2, '0')}
-              </motion.div>
-              <h3 className="text-2xl font-bold font-inter text-white mb-4 tracking-tight group-hover:text-white transition-colors">
+              <div className="text-5xl mb-4">{service.icon}</div>
+              <h3 className="text-2xl font-bold font-poppins text-white mb-4">
                 {service.title}
               </h3>
-              <p className="text-gray-300 font-inter leading-relaxed">
+              <p className="text-gray-300 font-poppins leading-relaxed">
                 {service.description}
               </p>
             </motion.div>
@@ -89,3 +80,4 @@ export default function Services() {
     </section>
   )
 }
+
